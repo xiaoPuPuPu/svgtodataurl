@@ -169,6 +169,36 @@ data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBo
 
 我们测试发现，结果它在 IE9+ 以及 安卓3.x 以上的浏览器中都能够完美显示。
 
+## demo
+
+```vue
+// img.vue
+<template>
+    <img :src="svgDataUrl" alt="" />
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            imgSrc: '',
+        }
+    },
+    computed: {
+        svgDataUrl() {
+        // 保证在ssr中不报错 
+        const svgEncode = encodeURIComponent
+         ? encodeURIComponent(this.imgSrc)
+            : ''
+        const url = 'data:image/svg+xml;utf8,' + svgEncode
+        return url
+        },
+    },
+}
+
+</script>
+```
+
 参考资料：
 
 [Optimizing SVGs in data URIs](http://codepen.io/Tigt/post/optimizing-svgs-in-data-uris)
